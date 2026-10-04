@@ -104,6 +104,18 @@ The first command starts just the API. The second starts the bot and worker too.
 
 Tests use temporary databases, a controlled clock, and fake Telegram replies. They cover bot forms, owner checks, search, history, editing, CSV exports, reminder retries and rescheduling, lease recovery, and Austin's daylight saving changes. One check starts a real local HTTP server. GitHub Actions runs these checks on pushes and pull requests.
 
+## Markdown summary
+
+With the API running and `.env` configured, generate a read-only report:
+
+```powershell
+.\.venv\Scripts\python.exe -m reports.summary --days 7 --output exports/summary.md
+```
+
+Omit `--output` to print it in the terminal. `--days` accepts 1–30 and includes overdue unfinished reminders too. The report shows current status counts and follow-ups in the selected window, not period conversions. Reads are paginated and capped at 5000 records per collection; they are not one atomic database snapshot. Existing output files are never overwritten.
+
+Reports include company names, but not notes, job links, reminder text, or credentials. Keep them private; `exports/` is ignored by Git. No Telegram token is needed. The implementation lives in [`reports/`](reports/).
+
 ## Backups
 
 For a locally running API:

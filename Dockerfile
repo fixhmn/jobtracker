@@ -9,6 +9,7 @@ COPY app ./app
 COPY bot ./bot
 COPY worker ./worker
 COPY scripts ./scripts
+COPY reports ./reports
 RUN pip install --no-cache-dir --no-deps . \
     && useradd --create-home tracker \
     && mkdir -p /srv/jobtracker/data \
