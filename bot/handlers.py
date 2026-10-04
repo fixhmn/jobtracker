@@ -19,6 +19,7 @@ HELP = (
     "/view 1 — open a job\n/remind 1 — set a reminder\n/today — things to follow up on\n"
     "/reminders — browse reminders\n/reminders failed — delivery problems\n"
     "/reschedule 1 — change a reminder's time\n"
+    "/withdraw 1 — mark a job as withdrawn (keeps reminders)\n"
     "/done 1 — finish a reminder\n/stats — last 30 days\n/export — download jobs as CSV\n"
     "/cancel — stop the current form"
 )

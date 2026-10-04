@@ -116,6 +116,19 @@ async def begin_reschedule(message, row_id, state, api, settings):
 def make_management_router():
     router = Router()
 
+    @router.message(Command("withdraw"))
+    async def withdraw(message: Message, command: CommandObject, api):
+        row_id = record_id(command.args)
+        if row_id is None:
+            await message.answer("Use /withdraw followed by a job number, for example /withdraw 1.")
+            return
+        job = await api.request("PATCH", f"/applications/{row_id}", json={"status": "Withdrawn"})
+        await message.answer(
+            f"Marked #{row_id} at {escape(job['company'])} as Withdrawn.\n"
+            "Reminders are unchanged. You can change the status again with /view " + str(row_id),
+            reply_markup=status_buttons(row_id),
+        )
+
     @router.message(Command("export"))
     async def export(message: Message, command: CommandObject, api):
         status = command.args.strip().title() if command.args else None

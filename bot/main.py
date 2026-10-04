@@ -56,6 +56,7 @@ async def main():
                 BotCommand(command="search", description="Find a saved job"),
                 BotCommand(command="edit", description="Edit a saved job"),
                 BotCommand(command="history", description="Status changes"),
+                BotCommand(command="withdraw", description="Mark a job as withdrawn"),
                 BotCommand(command="today", description="Today's follow-ups"),
                 BotCommand(command="reminders", description="Browse reminders"),
                 BotCommand(command="reschedule", description="Move a reminder"),

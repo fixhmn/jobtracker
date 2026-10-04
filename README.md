@@ -67,6 +67,7 @@ The discovery command is `.\.venv\Scripts\python.exe -m scripts.telegram_id`. Ru
 | `/view 1` | Open a job and change its status with buttons |
 | `/edit 1` | Change a company, title, location, link, or notes |
 | `/history 1` | Show the last 20 status changes |
+| `/withdraw 1` | Mark a job as Withdrawn without deleting it or its reminders |
 | `/remind 1` | Set a follow-up for job #1 |
 | `/today` | Show today's and overdue unfinished reminders |
 | `/reminders` or `/reminders failed` | Browse active reminders or filter by state |
