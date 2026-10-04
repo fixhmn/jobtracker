@@ -1,0 +1,13 @@
+.venv
+.git
+.env
+data
+backups
+exports
+**/__pycache__
+**/*.db*
+**/*.sqlite*
+**/*.log
+.pytest_cache
+.ruff_cache
+docs/archive

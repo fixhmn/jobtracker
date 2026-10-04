@@ -1,0 +1,52 @@
+x-runtime: &runtime
+  build: .
+  init: true
+  restart: unless-stopped
+  environment: &environment
+    API_KEY: ${API_KEY:?Set API_KEY in .env}
+    API_BASE_URL: http://api:8000
+    TIMEZONE: ${TIMEZONE:-America/Chicago}
+
+services:
+  api:
+    <<: *runtime
+    environment:
+      <<: *environment
+      DATABASE_PATH: /srv/jobtracker/data/jobtracker.db
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - jobtracker-data:/srv/jobtracker/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  bot:
+    <<: *runtime
+    profiles: [telegram]
+    command: ["python", "-m", "bot.main"]
+    environment:
+      <<: *environment
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      OWNER_TELEGRAM_ID: ${OWNER_TELEGRAM_ID:-}
+    depends_on:
+      api:
+        condition: service_healthy
+
+  worker:
+    <<: *runtime
+    profiles: [telegram]
+    command: ["python", "-m", "worker.main"]
+    environment:
+      <<: *environment
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      OWNER_TELEGRAM_ID: ${OWNER_TELEGRAM_ID:-}
+      WORKER_POLL_SECONDS: ${WORKER_POLL_SECONDS:-15}
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  jobtracker-data:
